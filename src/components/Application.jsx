@@ -25,6 +25,12 @@ class Application extends Component {
       });
   };
 
+  handleRemove = id => {
+    const allPosts = this.state.posts;
+    const posts = allPosts.filter(post => post.id !== id);
+    this.setState({ posts });
+  };
+
   componentDidMount = () => {
     firestore
       .collection("posts")
@@ -47,7 +53,11 @@ class Application extends Component {
     return (
       <main className="Application">
         <h1>Think Piece</h1>
-        <Posts posts={posts} onCreate={this.handleCreate} />
+        <Posts
+          posts={posts}
+          onCreate={this.handleCreate}
+          onRemove={this.handleRemove}
+        />
       </main>
     );
   }

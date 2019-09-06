@@ -17,7 +17,6 @@ class AddPost extends Component {
     const { Title, Content } = this.state;
 
     const post = {
-      id: Date.now().toString(),
       Title,
       Content,
       User: {
