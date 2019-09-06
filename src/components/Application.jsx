@@ -1,46 +1,28 @@
 import React, { Component } from "react";
 
 import Posts from "./Posts";
-
+import { getIDsAndDocs } from "../utilities";
 import { firestore } from "../firebase";
 
 class Application extends Component {
   state = {
-    posts: [
-      {
-        id: "1",
-        title: "A Very Hot Take",
-        content:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis suscipit repellendus modi unde cumque, fugit in ad necessitatibus eos sed quasi et! Commodi repudiandae tempora ipsum fugiat. Quam, officia excepturi!",
-        user: {
-          uid: "123",
-          displayName: "Bill Murray",
-          email: "billmurray@mailinator.com",
-          photoURL: "https://www.fillmurray.com/300/300"
-        },
-        stars: 1,
-        comments: 47
-      },
-      {
-        id: "2",
-        title: "The Sauciest of Opinions",
-        content:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis suscipit repellendus modi unde cumque, fugit in ad necessitatibus eos sed quasi et! Commodi repudiandae tempora ipsum fugiat. Quam, officia excepturi!",
-        user: {
-          uid: "456",
-          displayName: "Mill Burray",
-          email: "notbillmurray@mailinator.com",
-          photoURL: "https://www.fillmurray.com/400/400"
-        },
-        stars: 3,
-        comments: 0
-      }
-    ]
+    posts: []
   };
 
   handleCreate = post => {
     const { posts } = this.state;
-    this.setState({ posts: [post, ...posts] });
+
+    console.log(post);
+
+    firestore
+      .collection("posts")
+      .add(post)
+      .then(docReference => {
+        docReference.get().then(doc => {
+          const newPost = getIDsAndDocs(doc);
+          this.setState({ posts: [newPost, ...posts] });
+        });
+      });
   };
 
   componentDidMount = () => {
@@ -48,11 +30,13 @@ class Application extends Component {
       .collection("posts")
       .get()
       .then(snapshot => {
-        console.log(snapshot);
-        snapshot.forEach(doc => {
-          const id = doc.id;
-          const data = doc.data();
-          console.log({ id, data });
+        // snapshot.forEach(doc => {
+        //   console.log(doc.data());
+        // });
+        let posts = snapshot.docs.map(getIDsAndDocs);
+        // console.log(posts);
+        this.setState({ posts: posts }, () => {
+          console.log("HI", this.state.posts);
         });
       });
   };

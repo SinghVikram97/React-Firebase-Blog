@@ -1,24 +1,26 @@
 import React, { Component } from "react";
 
 class AddPost extends Component {
-  state = { title: "", content: "" };
+  state = { Title: "", Content: "" };
 
   handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      // console.log("State", this.state);
+    });
   };
 
   handleSubmit = event => {
     event.preventDefault();
 
     const { onCreate } = this.props;
-    const { title, content } = this.state;
+    const { Title, Content } = this.state;
 
     const post = {
       id: Date.now().toString(),
-      title,
-      content,
-      user: {
+      Title,
+      Content,
+      User: {
         uid: "1111",
         displayName: "Steve Kinney",
         email: "steve@mailinator.com",
@@ -35,21 +37,21 @@ class AddPost extends Component {
   };
 
   render() {
-    const { title, content } = this.state;
+    const { Title, Content } = this.state;
     return (
       <form onSubmit={this.handleSubmit} className="AddPost">
         <input
           type="text"
-          name="title"
+          name="Title"
           placeholder="Title"
-          value={title}
+          value={Title}
           onChange={this.handleChange}
         />
         <input
           type="text"
-          name="content"
+          name="Content"
           placeholder="Body"
-          value={content}
+          value={Content}
           onChange={this.handleChange}
         />
         <input className="create" type="submit" value="Create Post" />
