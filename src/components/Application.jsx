@@ -9,28 +9,28 @@ class Application extends Component {
     posts: []
   };
 
-  handleCreate = post => {
-    // const { posts } = this.state;
+  // handleCreate = post => {
+  //   // const { posts } = this.state;
 
-    // console.log(post);
+  //   // console.log(post);
 
-    firestore.collection("posts").add(post);
-    // .then(docReference => {
-    //   docReference.get().then(doc => {
-    //     const newPost = getIDsAndDocs(doc);
-    //     this.setState({ posts: [newPost, ...posts] });
-    //   });
-    // });
-  };
+  //   // firestore.collection("posts").add(post);
+  //   // .then(docReference => {
+  //   //   docReference.get().then(doc => {
+  //   //     const newPost = getIDsAndDocs(doc);
+  //   //     this.setState({ posts: [newPost, ...posts] });
+  //   //   });
+  //   // });
+  // };
 
-  handleRemove = id => {
-    // const allPosts = this.state.posts;
-    firestore.doc(`posts/${id}`).delete();
-    // .then(() => {
-    //   const posts = allPosts.filter(post => post.id !== id);
-    //   this.setState({ posts });
-    // });
-  };
+  // handleRemove = id => {
+  //   // const allPosts = this.state.posts;
+  //   firestore.doc(`posts/${id}`).delete();
+  //   // .then(() => {
+  //   //   const posts = allPosts.filter(post => post.id !== id);
+  //   //   this.setState({ posts });
+  //   // });
+  // };
 
   unsubscribe = null;
 

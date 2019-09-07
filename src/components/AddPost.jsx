@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { firestore } from "../firebase";
 class AddPost extends Component {
   state = { Title: "", Content: "" };
 
@@ -13,7 +13,7 @@ class AddPost extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { onCreate } = this.props;
+    // const { onCreate } = this.props;
     const { Title, Content } = this.state;
 
     const post = {
@@ -30,7 +30,8 @@ class AddPost extends Component {
       createdAt: new Date()
     };
 
-    onCreate(post);
+    // onCreate(post);
+    firestore.collection("posts").add(post);
 
     this.setState({ title: "", content: "" });
   };
