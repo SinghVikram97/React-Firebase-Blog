@@ -27,8 +27,13 @@ class Application extends Component {
 
   handleRemove = id => {
     const allPosts = this.state.posts;
-    const posts = allPosts.filter(post => post.id !== id);
-    this.setState({ posts });
+    firestore
+      .doc(`posts/${id}`)
+      .delete()
+      .then(() => {
+        const posts = allPosts.filter(post => post.id !== id);
+        this.setState({ posts });
+      });
   };
 
   componentDidMount = () => {
