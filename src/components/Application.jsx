@@ -36,21 +36,33 @@ class Application extends Component {
       });
   };
 
+  unsubscribe = null;
+
   componentDidMount = () => {
-    firestore
-      .collection("posts")
-      .get()
-      .then(snapshot => {
-        // snapshot.forEach(doc => {
-        //   console.log(doc.data());
-        // });
-        let posts = snapshot.docs.map(getIDsAndDocs);
-        // console.log(posts);
-        this.setState({ posts: posts }, () => {
-          console.log("HI", this.state.posts);
-        });
-      });
+    // firestore
+    //   .collection("posts")
+    //   .get()
+    //   .then(snapshot => {
+    //     // snapshot.forEach(doc => {
+    //     //   console.log(doc.data());
+    //     // });
+    //     let posts = snapshot.docs.map(getIDsAndDocs);
+    //     // console.log(posts);
+    //     this.setState({ posts: posts }, () => {
+    //       console.log("HI", this.state.posts);
+    //     });
+    //   });
+
+    // Subsrcibe to changes in database so that we don't need to refresh each time
+    this.unsubscribe = firestore.collection("posts").onSnapshot(snapshot => {
+      let posts = snapshot.docs.map(getIDsAndDocs);
+      this.setState({ posts: posts });
+    });
   };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   render() {
     const { posts } = this.state;
