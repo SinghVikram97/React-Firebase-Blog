@@ -26,10 +26,17 @@ const Post = ({ Title, Content, User, createdAt, stars, comments, id }) => {
             {comments}
           </p>
           <p>Posted by {User.displayName}</p>
-          <p>{moment(createdAt).calendar()}</p>
+          <p>{moment(createdAt.toDate()).calendar()}</p>
         </div>
         <div>
-          <button className="star">Star</button>
+          <button
+            className="star"
+            onClick={() =>
+              firestore.doc(`posts/${id}`).update({ stars: stars + 1 })
+            }
+          >
+            Star
+          </button>
           <button
             className="delete"
             onClick={() => {
