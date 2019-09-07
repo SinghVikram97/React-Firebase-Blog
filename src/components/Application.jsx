@@ -3,10 +3,13 @@ import React, { Component } from "react";
 import Posts from "./Posts";
 import { getIDsAndDocs } from "../utilities";
 import { firestore } from "../firebase";
+import Authentication from "./Authentication";
+import { auth } from "firebase";
 
 class Application extends Component {
   state = {
-    posts: []
+    posts: [],
+    user: null
   };
 
   // handleCreate = post => {
@@ -32,7 +35,8 @@ class Application extends Component {
   //   // });
   // };
 
-  unsubscribe = null;
+  unsubscribeFromFirestore = null;
+  unsubscribeFromAuth = null;
 
   componentDidMount = () => {
     // firestore
@@ -50,26 +54,34 @@ class Application extends Component {
     //   });
 
     // Subsrcibe to changes in database so that we don't need to refresh each time
-    this.unsubscribe = firestore.collection("posts").onSnapshot(snapshot => {
-      let posts = snapshot.docs.map(getIDsAndDocs);
-      this.setState({ posts: posts });
-    });
+    this.unsubscribeFromFirestore = firestore
+      .collection("posts")
+      .onSnapshot(snapshot => {
+        let posts = snapshot.docs.map(getIDsAndDocs);
+        this.setState({ posts: posts });
+
+        // From logged in to logged out or vice verse
+        this.unsubscribeFromAuth = auth().onAuthStateChanged(user => {
+          this.setState({ user });
+        });
+      });
   };
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribeFromFirestore();
   }
 
   render() {
-    const { posts } = this.state;
+    const { posts, user } = this.state;
 
     return (
       <main className="Application">
         <h1>Think Piece</h1>
+        <Authentication user={user} />
         <Posts
           posts={posts}
-          onCreate={this.handleCreate}
-          onRemove={this.handleRemove}
+          // onCreate={this.handleCreate}
+          // onRemove={this.handleRemove}
         />
       </main>
     );
