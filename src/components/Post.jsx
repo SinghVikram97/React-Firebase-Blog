@@ -32,7 +32,9 @@ const Post = ({ Title, Content, User, createdAt, stars, comments, id }) => {
           <button className="star">Star</button>
           <button
             className="delete"
-            onClick={firestore.doc(`posts/${id}`).delete()}
+            onClick={() => {
+              firestore.doc(`posts/${id}`).delete();
+            }}
           >
             Delete
           </button>
