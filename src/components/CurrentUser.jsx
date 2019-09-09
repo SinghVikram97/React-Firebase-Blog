@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import moment from 'moment';
+import moment from "moment";
+import { signOut } from "../firebase";
 
 const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
   return (
@@ -15,17 +16,17 @@ const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
       </div>
       <div>
         <div>{children}</div>
-        <button>Sign Out</button>
+        <button onClick={signOut}>Sign Out</button>
       </div>
     </section>
   );
 };
 
 CurrentUser.defaultProps = {
-  displayName: 'Bill Murray',
-  email: 'billmurray@mailinator.com',
-  photoURL: 'https://www.fillmurray.com/300/300',
-  createdAt: new Date(),
+  displayName: "Bill Murray",
+  email: "billmurray@mailinator.com",
+  photoURL: "https://www.fillmurray.com/300/300",
+  createdAt: new Date()
 };
 
 export default CurrentUser;
