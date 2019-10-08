@@ -6,5 +6,11 @@ import "./index.scss";
 import "cors";
 
 import Application from "./components/Application";
+import PostsProvider from "./providers/PostsProvider";
 
-render(<Application />, document.getElementById("root"));
+render(
+  <PostsProvider>
+    <Application />
+  </PostsProvider>,
+  document.getElementById("root")
+);

@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 
 import Posts from "./Posts";
-import { getIDsAndDocs } from "../utilities";
-import { firestore, createUserProfileDocument } from "../firebase";
+
+import { createUserProfileDocument } from "../firebase";
 import Authentication from "./Authentication";
 import { auth } from "firebase";
 
 class Application extends Component {
   state = {
-    posts: [],
     user: null
   };
 
@@ -35,7 +34,6 @@ class Application extends Component {
   //   // });
   // };
 
-  unsubscribeFromFirestore = null;
   unsubscribeFromAuth = null;
 
   componentDidMount = () => {
@@ -54,18 +52,12 @@ class Application extends Component {
     //   });
 
     // Subsrcibe to changes in database so that we don't need to refresh each time
-    this.unsubscribeFromFirestore = firestore
-      .collection("posts")
-      .onSnapshot(snapshot => {
-        let posts = snapshot.docs.map(getIDsAndDocs);
-        this.setState({ posts: posts });
 
-        // From logged in to logged out or vice verse
-        this.unsubscribeFromAuth = auth().onAuthStateChanged(async userAuth => {
-          const user = await createUserProfileDocument(userAuth);
-          this.setState({ user });
-        });
-      });
+    // From logged in to logged out or vice verse
+    this.unsubscribeFromAuth = auth().onAuthStateChanged(async userAuth => {
+      const user = await createUserProfileDocument(userAuth);
+      this.setState({ user });
+    });
   };
 
   componentWillUnmount() {
@@ -74,16 +66,16 @@ class Application extends Component {
   }
 
   render() {
-    const { posts, user } = this.state;
+    const { user } = this.state;
 
     return (
       <main className="Application">
         <h1>Think Piece</h1>
         <Authentication user={user} />
         <Posts
-          posts={posts}
-          // onCreate={this.handleCreate}
-          // onRemove={this.handleRemove}
+
+        // onCreate={this.handleCreate}
+        // onRemove={this.handleRemove}
         />
       </main>
     );
