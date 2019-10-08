@@ -21,4 +21,20 @@ export const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 export const signOut = () => auth.signOut();
 
+export const createUserProfileDocument = async (user, additionalDetails) => {
+  if (!user) {
+    return;
+  }
+
+  // Get a reference to a place in db where user might be
+  const userRef = firestore.doc(`users/${user.uid}`);
+
+  // Go and fetch document from that location
+  const snapshot = await userRef.get();
+
+  // Check if user exists it not create
+  if (!snapshot.exists) {
+  } else {
+  }
+};
 export default firebase;

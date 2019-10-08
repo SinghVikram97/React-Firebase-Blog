@@ -36,7 +36,7 @@ class AddPost extends Component {
     // onCreate(post);
     firestore.collection("posts").add(post);
 
-    this.setState({ title: "", content: "" });
+    this.setState({ Title: "", Content: "" });
   };
 
   render() {

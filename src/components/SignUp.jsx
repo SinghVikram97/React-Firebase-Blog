@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { auth } from "../firebase";
 
 class SignUp extends Component {
-  state = { displayName: '', email: '', password: '' };
+  state = { displayName: "", email: "", password: "" };
 
   handleChange = event => {
     const { name, value } = event.target;
@@ -12,7 +13,15 @@ class SignUp extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.setState({ displayName: '', email: '', password: '' });
+    const { email, password, displayName } = this.state;
+
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const { user } = userCredentials;
+        user.updateProfile({ displayName });
+        this.setState({ displayName: "", email: "", password: "" });
+      });
   };
 
   render() {
