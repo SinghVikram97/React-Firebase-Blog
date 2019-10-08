@@ -7,10 +7,13 @@ import "cors";
 
 import Application from "./components/Application";
 import PostsProvider from "./providers/PostsProvider";
+import UserProvider from "./providers/UserProvider";
 
 render(
-  <PostsProvider>
-    <Application />
-  </PostsProvider>,
+  <UserProvider>
+    <PostsProvider>
+      <Application />
+    </PostsProvider>
+  </UserProvider>,
   document.getElementById("root")
 );
