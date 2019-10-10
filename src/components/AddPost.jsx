@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { firestore } from "../firebase";
 import { auth } from "../firebase";
 
@@ -17,8 +17,8 @@ class AddPost extends Component {
 
     // const { onCreate } = this.props;
     const { Title, Content } = this.state;
-    const { uid, displayName, photoURL, email } = auth.currentUser || {};
-    console.log(uid);
+
+    const { uid, displayName, photoURL, email } = this.props.user || {};
     const post = {
       Title,
       Content,

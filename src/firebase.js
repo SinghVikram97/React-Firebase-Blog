@@ -26,6 +26,8 @@ export const signOut = () => auth.signOut();
 export const createUserProfileDocument = async (user, additionalData) => {
   if (!user) return;
 
+  console.log("additional data", additionalData);
+
   // Get a reference to the place in the database where a user profile might be.
   const userRef = firestore.doc(`users/${user.uid}`);
 
