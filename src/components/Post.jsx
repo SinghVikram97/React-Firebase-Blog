@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import moment from "moment";
-
+import { Link } from "react-router-dom";
 import { firestore } from "../firebase";
 
 const belongToCurrentUser = (currentUser, postAuthor) => {
@@ -18,7 +18,11 @@ const Post = ({ Title, Content, User, createdAt, stars, comments, id }) => {
   return (
     <article className="Post">
       <div className="Post--content">
-        <h3>{Title}</h3>
+        <Link to={`/posts/${id}`}>
+          {" "}
+          <h3>{Title}</h3>
+        </Link>
+
         <div>{Content}</div>
       </div>
       <div className="Post--meta">
