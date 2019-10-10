@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import moment from "moment";
+import moment from "moment";
 import { signOut } from "../firebase";
 
 const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
-  console.log(createdAt.toDate().toDateString());
+  console.log(moment(createdAt.toDate && createdAt.toDate()).calendar());
   return (
     <section className="CurrentUser">
       <div className="CurrentUser--profile">
@@ -16,7 +16,9 @@ const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
           </Link>
 
           <p className="email">{email}</p>
-          <p className="created-at">{createdAt.toDate().toDateString()}</p>
+          <p className="created-at">
+            {moment(createdAt.toDate && createdAt.toDate()).calendar()}
+          </p>
         </div>
       </div>
       <div>
