@@ -4,6 +4,8 @@ import Comments from "./Comments";
 import { firestore } from "../firebase";
 import { getIDsAndDocs } from "../utilities";
 import { withRouter } from "react-router-dom";
+import withUser from "./withUser";
+
 class PostPage extends Component {
   state = {
     post: null,
@@ -42,17 +44,30 @@ class PostPage extends Component {
     this.unsubscribeFromComments = null;
   }
 
+  createComment = comment => {
+    const { user } = this.props;
+    this.commentsRef.add({
+      ...comment,
+      user
+    });
+  };
+
   render() {
     const { post, comments } = this.state;
-    console.log("POSTTTT", post);
+    // console.log("POSTTTT", post);
+    console.log(this.props);
     return (
       <section>
         {post && <Post {...post} />}
         {post && (
-          <Comments onCreate={() => {}} comments={comments} postId={post.id} />
+          <Comments
+            onCreate={this.createComment}
+            comments={comments}
+            postId={post.id}
+          />
         )}
       </section>
     );
   }
 }
-export default withRouter(PostPage);
+export default withRouter(withUser(PostPage));

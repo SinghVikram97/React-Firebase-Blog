@@ -1,6 +1,5 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import { firestore } from "../firebase";
-import { auth } from "../firebase";
 
 class AddPost extends Component {
   state = { Title: "", Content: "" };
